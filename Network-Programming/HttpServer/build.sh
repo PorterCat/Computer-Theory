@@ -1,0 +1,1 @@
+g++ -std=c++17 -o http_server main.cpp -lboost_system -pthread

@@ -1,0 +1,16 @@
+==PROF== Connected to process 6574 (/home/portercat/Development/Graphics-Programming/Lab-05/reg.out)
+==PROF== Profiling "vectorsRegPressure" - 0: 0%....50%....100% - 1 pass
+==PROF== Disconnected from process 6574
+[6574] reg.out@127.0.0.1
+  vectorsRegPressure(float *, float *, int, int) (1024, 1, 1)x(256, 1, 1), Context 1, Stream 7, Device 0, CC 8.6
+    Section: Command line profiler metrics
+    ------------------------------------------------------ ----------- ------------
+    Metric Name                                            Metric Unit Metric Value
+    ------------------------------------------------------ ----------- ------------
+    dram__bytes_read.sum                                         Mbyte         1.18
+    dram__bytes_write.sum                                        Gbyte         1.05
+    gpu__dram_throughput.avg.pct_of_peak_sustained_elapsed           %        71.85
+    gpu__time_duration.sum                                          ms         8.56
+    lts__t_bytes.sum                                             Gbyte         1.06
+    ------------------------------------------------------ ----------- ------------
+

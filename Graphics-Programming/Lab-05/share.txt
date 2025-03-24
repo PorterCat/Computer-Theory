@@ -1,0 +1,16 @@
+==PROF== Connected to process 6256 (/home/portercat/Development/Graphics-Programming/Lab-05/shared.out)
+==PROF== Profiling "vectorsShared" - 0: 0%....50%....100% - 1 pass
+==PROF== Disconnected from process 6256
+[6256] shared.out@127.0.0.1
+  vectorsShared(float *, float *, int, int) (1024, 1, 1)x(256, 1, 1), Context 1, Stream 7, Device 0, CC 8.6
+    Section: Command line profiler metrics
+    ------------------------------------------------------ ----------- ------------
+    Metric Name                                            Metric Unit Metric Value
+    ------------------------------------------------------ ----------- ------------
+    dram__bytes_read.sum                                         Mbyte         1.05
+    dram__bytes_write.sum                                        Kbyte       482.82
+    gpu__dram_throughput.avg.pct_of_peak_sustained_elapsed           %         8.47
+    gpu__time_duration.sum                                          us       106.11
+    lts__t_bytes.sum                                             Mbyte         9.46
+    ------------------------------------------------------ ----------- ------------
+

@@ -1,15 +1,13 @@
 #include "include.h"
 
-#define VECTOR_SIZE 100000
+#define VECTOR_SIZE 1000
 
 int main(int argc, char* argv[])
 {
     std::mt19937 gen(std::random_device{}());
     std::vector<int> vec(VECTOR_SIZE);
 
-    int min_val = 1;
-    int max_val = 100;
-    std::uniform_int_distribution<int> dist(min_val, max_val);
+    std::uniform_int_distribution<int> dist(INT32_MIN, INT32_MAX);
 
     for(auto& num : vec)
         num = dist(gen);
@@ -25,27 +23,26 @@ int main(int argc, char* argv[])
     
     #pragma region SelectSort
     
-    copy = vec; 
+    copy = vec;
     start = std::chrono::high_resolution_clock::now();
     mysorts::selectSort(copy, [](int a, int b){return a < b;});
     end = std::chrono::high_resolution_clock::now();
-
     duration = end - start;
 
     std::cout << '[' << vec.size() << ']' << " Select: " << duration.count() << " seconds\n"; 
 
     #pragma endregion
 
-    #pragma region QuickSort
+    #pragma region MergeSort
 
     copy = vec; 
     start = std::chrono::high_resolution_clock::now();
-    std::sort(vec.begin(), vec.end(), [](int a, int b){return a < b;});
+    mysorts::mergeSort(copy, [](int a, int b){return a < b;});
     end = std::chrono::high_resolution_clock::now();
 
     duration = end - start;
 
-    std::cout << '[' << vec.size() << ']' << " Quick:  " << duration.count() << " seconds\n"; 
+    std::cout << '[' << vec.size() << ']' << " Merge:  " << duration.count() << " seconds\n"; 
 
     #pragma endregion
 
