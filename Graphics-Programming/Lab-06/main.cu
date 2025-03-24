@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <cuda_runtime.h>
+#include <chrono>
 
 #define TILE_DIM 32
 
@@ -45,10 +46,23 @@ __global__ void transposeSharedNoBankConflicts(float *odata, const float *idata,
     odata[y * height + x] = tile[threadIdx.x][threadIdx.y];
 }
 
+void transposeOnCPU(float *odata, const float *idata, int width, int height)
+{    
+    for(int i = 0; i < height; ++i)
+    {
+        for(int j = 0; j < width; ++j)
+        {
+            odata[j * height + i] = idata[i * width + j];
+        }
+    }
+}
+
 int main() 
 {
     int width = 1024;
     int height = 1024;
+
+    printf("Size: %d x %d\n", width, height);
     size_t size = width * height * sizeof(float);
 
     float *h_in = (float*)malloc(size);
@@ -70,6 +84,13 @@ int main()
 
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
+
+    auto startCpu = std::chrono::high_resolution_clock::now();
+    transposeOnCPU(h_out, h_in, width, height);
+    auto endCpu = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> duration = endCpu - startCpu;
+    printf("Transpose on CPU execution time: %f ms\n", duration.count() * 1000);
+
 
     #ifndef Native
     cudaEventRecord(start, 0);
@@ -104,8 +125,9 @@ int main()
     cudaEventDestroy(stop);
     cudaFree(d_in);
     cudaFree(d_out);
-    free(h_in);
-    free(h_out);
+    
+    delete [] h_in;
+    delete [] h_out;
 
     return 0;
 }
