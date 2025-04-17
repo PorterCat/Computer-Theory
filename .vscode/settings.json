@@ -65,6 +65,8 @@
         "__nullptr": "cpp",
         "__debug": "cpp",
         "__tuple": "cpp",
-        "target": "cpp"
+        "target": "cpp",
+        "csignal": "cpp",
+        "fstream": "cpp"
     }
 }
