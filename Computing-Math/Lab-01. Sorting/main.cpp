@@ -1,21 +1,33 @@
 #include "include.h"
 
-#define VECTOR_SIZE 1000
-
 int main(int argc, char* argv[])
 {
     std::mt19937 gen(std::random_device{}());
-    std::vector<int> vec(VECTOR_SIZE);
+    std::vector<int> vec;
 
-    std::uniform_int_distribution<int> dist(INT32_MIN, INT32_MAX);
+    uint32_t vector_size = 10;
+    if(argc == 2) 
+    {
+        vector_size = std::stoi(argv[1]);
+        vec.resize(vector_size);
+    }
+    else 
+    {
+        vec.resize(vector_size);
+    }
+
+    std::uniform_int_distribution<int> dist((vector_size == 10) ? 0 : INT32_MIN, 
+                                            (vector_size == 10) ? 10 : INT32_MAX);
 
     for(auto& num : vec)
         num = dist(gen);
 
+    auto clockNow = &std::chrono::high_resolution_clock::now;
+
     std::vector<int> copy = vec; 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = clockNow();
     mysorts::bubbleSort(copy, [](int a, int b){return a < b;});
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = clockNow();
 
     std::chrono::duration<double> duration = end - start;
 
@@ -24,9 +36,9 @@ int main(int argc, char* argv[])
     #pragma region SelectSort
     
     copy = vec;
-    start = std::chrono::high_resolution_clock::now();
+    start = clockNow();
     mysorts::selectSort(copy, [](int a, int b){return a < b;});
-    end = std::chrono::high_resolution_clock::now();
+    end = clockNow();
     duration = end - start;
 
     std::cout << '[' << vec.size() << ']' << " Select: " << duration.count() << " seconds\n"; 
@@ -36,9 +48,9 @@ int main(int argc, char* argv[])
     #pragma region MergeSort
 
     copy = vec; 
-    start = std::chrono::high_resolution_clock::now();
-    mysorts::mergeSort(copy, [](int a, int b){return a < b;});
-    end = std::chrono::high_resolution_clock::now();
+    start = clockNow();
+    mysorts::mergeSort(copy, [](int a, int b){return a < b;}, (vector_size == 10));
+    end = clockNow();
 
     duration = end - start;
 
@@ -48,3 +60,5 @@ int main(int argc, char* argv[])
 
     return 0;
 }
+
+// TODO: попробовать запускать все сортировки в разных потоках - для интереса
